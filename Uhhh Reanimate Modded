@@ -4971,7 +4971,7 @@ HatReanimator.RespawnPosition = SaveData.Reanimator.RespawnPosition
 -- 1 - behind character
 -- 2 - randomtp close
 -- 3 - stay at spawn
--- 4 underground. basically just spawn my characer underground
+-- 4 - underground. basically just spawn my character underground
 HatReanimator.HatFling = SaveData.Reanimator.HatsFling
 HatReanimator.HatSpin = SaveData.Reanimator.HatsSpin
 HatReanimator.FlingMethod = SaveData.Reanimator.HatsFlingMethod
@@ -5062,7 +5062,7 @@ function HatReanimator.Config(parent)
 		"Behind ReanimCharacter",
 		"Randomtp near",
 		"At spawn",
-		"underground",
+		"Under ReanimCharacter",
 	}, HatReanimator.RespawnPosition + 1).Changed:Connect(function(val)
 		HatReanimator.RespawnPosition = val - 1
 		SaveData.Reanimator.RespawnPosition = val - 1
