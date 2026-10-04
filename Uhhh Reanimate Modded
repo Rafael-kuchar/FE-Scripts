@@ -1086,6 +1086,8 @@ local function SetUITheme(index)
 		{Fore = Color3.fromHex("F7ABE8"), Back = Color3.fromHex("75284B"), Text = Color3.new(1, 1, 1)},
 		-- Tommorow Night 80s
 		{Fore = Color3.fromHex("272727"), Back = Color3.fromHex("2D2D2D"), Text = Color3.fromHex("BEBEBE"), SndClick = "rbxassetid://86097124503088"},
+		-- C00lgui
+		{Fore = Color3.fromHex("ff0000"), Back = Color3.fromHex("000000"), Text = Color3.fromHex("BEBEBE"),
 	}
 	local theme = {nil, nil, Color3.new(1, 1, 1), "rbxassetid://118806752369227"}
 	local function processtable(t)
@@ -3026,6 +3028,7 @@ UI.CreateDropdown(MainPage, "UI Theme", {
 	"Cherry Blossom",
 	"Sakura",
 	"Tommorow Night 80s", -- my personal IDE theme
+	"C00lgui",
 	"User Defined (see README)",
 }, SaveData.UITheme).Changed:Connect(function(val)
 	SaveData.UITheme = val
