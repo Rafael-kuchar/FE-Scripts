@@ -1275,7 +1275,7 @@ local UIMainWindow, WindowContent do
 		TopBarText.Text = quotes[math.random(1, #quotes)]
 		if not aprilfools then
 			task.delay(2, function()
-				TopBarText.Text = "Uhhhhhh Reanimate | v" .. UhhhhhhVersion
+				TopBarText.Text = "c00lgui v" .. UhhhhhhVersion
 			end)
 		end
 	end
