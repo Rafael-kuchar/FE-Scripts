@@ -4488,6 +4488,7 @@ LimbReanimator.FlingEnabled = not SaveData.Reanimator.LimbRoleplay
 LimbReanimator.UseNaNFling = SaveData.Reanimator.LimbUseNaNFling
 LimbReanimator.FlingTargets = {}
 LimbReanimator._TempNotFling = {}
+LimbReanimator.Highlight = SaveData.Reanimator.FlingHighlight -- also for limb reanimator
 function LimbReanimator.ShowHitboxes()
 	Util.UINotify("Just a useless option")
 	pcall(function()
@@ -4516,7 +4517,7 @@ function LimbReanimator.Fling(target, duration)
 		Duration = duration
 	})
 	if typeof(target) == "Instance" then
-		if target:IsA("Model") then
+		if target:IsA("Model") and LimbReanimator.Highlight then
 			local h = Util.Instance("Highlight")
 			h.Adornee = target
 			h.FillColor = Color3.new(1, 0, 0)
@@ -4524,10 +4525,6 @@ function LimbReanimator.Fling(target, duration)
 			h.FillTransparency = 0.5
 			h.OutlineTransparency = 0
 			h.Parent = target
-			TweenService:Create(h, TweenInfo.new(5), {
-				FillTransparency = 1,
-				OutlineTransparency = 1
-			}):Play()
 			game.Debris:AddItem(h, 5)
 		end
 	end
@@ -4545,6 +4542,10 @@ function LimbReanimator.Config(parent)
 	dmode.Changed:Connect(function(val)
 		LimbReanimator.Mode = val - 1
 		SaveData.Reanimator.LimbMode = val - 1
+	end)
+	UI.CreateSwitch(parent, "Fling highlight", LimbReanimator.Highlight).Changed:Connect(function(val)
+		LimbReanimator.Highlight = val
+		SaveData.Reanimator.FlingHighlight = not val
 	end)
 	dvel.Changed:Connect(function(val)
 		LimbReanimator.Velocity = val - 1
@@ -4971,10 +4972,11 @@ HatReanimator.RespawnPosition = SaveData.Reanimator.RespawnPosition
 -- 1 - behind character
 -- 2 - randomtp close
 -- 3 - stay at spawn
--- 4 - underground. basically just spawn my character underground
+-- 4 underground. basically just spawn my characer underground
 HatReanimator.HatFling = SaveData.Reanimator.HatsFling
 HatReanimator.HatSpin = SaveData.Reanimator.HatsSpin
 HatReanimator.FlingMethod = SaveData.Reanimator.HatsFlingMethod
+HatReanimator.Highlight = SaveData.Reanimator.FlingHighlight
 -- -1 - disabled
 -- 0 - respawn and fling
 -- 1 - use biggest collidable hat
@@ -5033,7 +5035,20 @@ function HatReanimator.Fling(target, duration)
 		Duration = duration
 	})
 	if typeof(target) == "Instance" then
-		if target:IsA("Model") then
+		if target:IsA("Model") and not HatReanimator.Highlight then
+			local h = Util.Instance("Highlight")
+			h.Adornee = target
+			h.FillColor = Color3.new(1, 0, 0)
+			h.OutlineColor = Color3.new(1, 0, 0)
+			h.FillTransparency = 1
+			h.OutlineTransparency = 1
+			h.Parent = target
+			TweenService:Create(h, TweenInfo.new(5), {
+				FillTransparency = 1,
+				OutlineTransparency = 1
+			}):Play()
+			game.Debris:AddItem(h, 5)
+		else
 			local h = Util.Instance("Highlight")
 			h.Adornee = target
 			h.FillColor = Color3.new(1, 0, 0)
@@ -5042,8 +5057,8 @@ function HatReanimator.Fling(target, duration)
 			h.OutlineTransparency = 0
 			h.Parent = target
 			TweenService:Create(h, TweenInfo.new(5), {
-				FillTransparency = 1,
-				OutlineTransparency = 1
+				FillTransparency = 0,
+				OutlineTransparency = 0
 			}):Play()
 			game.Debris:AddItem(h, 5)
 		end
@@ -5056,6 +5071,11 @@ function HatReanimator.Config(parent)
 	UI.CreateSwitch(parent, "Permadeath", HatReanimator.Permadeath).Changed:Connect(function(val)
 		HatReanimator.Permadeath = val
 		SaveData.Reanimator.HatsPatchmahub = not val
+	end)
+	UI.CreateText(parent, "dont like highlights for flinging? too annoying and red?", 10, Enum.TextXAlignment.Center)
+	UI.CreateSwitch(parent, "Fling highlight", HatReanimator.Highlight).Changed:Connect(function(val)
+		HatReanimator.Highlight = val
+		SaveData.Reanimator.FlingHighlight = not val
 	end)
 	UI.CreateDropdown(parent, "respawntp", {
 		"The Void",
